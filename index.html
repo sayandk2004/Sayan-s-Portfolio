@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sayan De Karmakar — Electrical Engineer Portfolio</title>
+  <meta name="description" content="Portfolio of Sayan De Karmakar — Electrical Engineer, Siemens Scholar, automation & power electronics." />
+
+  <!-- remember the theme before first paint (no flash) -->
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%237a5cff'/%3E%3Cpath d='M36 8 18 36h12l-3 20 19-30H34z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/agent.css" />
+</head>
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+
+  <!-- NAV -->
+  <nav class="nav glass" id="nav" aria-label="Main">
+    <a href="#home" class="nav-logo" data-link="home" aria-label="Home">SD<span>.</span></a>
+    <ul>
+      <li><a href="#about" data-link="about">About</a></li>
+      <li><a href="#education" data-link="education">Education</a></li>
+      <li><a href="#experience" data-link="experience">Experience</a></li>
+      <li><a href="#projects" data-link="projects">Projects</a></li>
+      <li><a href="#achievements" data-link="achievements">Achievements</a></li>
+      <li><a href="#hobbies" data-link="hobbies">Hobbies</a></li>
+      <li><a href="#contact" data-link="contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- THEME SWITCH (Sleep = dark · Work = light) -->
+  <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="true" aria-label="Switch between dark and light mode">
+    <span class="tt-label tt-sleep">Sleep</span>
+    <span class="tt-label tt-work">Work</span>
+    <span class="tt-knob">
+      <svg class="tt-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"/></svg>
+      <svg class="tt-user" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-4.6 3.8-7.4 8.5-7.4s8.5 2.8 8.5 7.4z" fill="currentColor"/></svg>
+    </span>
+  </button>
+
+  <audio id="bgm" preload="none"></audio>
+
+  <main id="app"></main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card glass" role="dialog" aria-modal="true">
+      <button class="modal-x" data-close aria-label="Close">×</button>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/agent.js"></script>
+</body>
+</html>

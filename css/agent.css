@@ -1,0 +1,95 @@
+/* ==========================================================================
+   agent.css — the hologram flame guide + chat panel
+   Colours come from --agent-a/b/c (set per theme in style.css): blue (Sleep) · yellow (Work)
+   ========================================================================== */
+#agent { position: fixed; left: 0; top: 0; width: 0; height: 0; z-index: 90; pointer-events: none; }
+.agent-body { position: absolute; left: 0; top: 0; width: 92px; height: 116px; pointer-events: auto; cursor: pointer; will-change: transform; outline-offset: 6px; }
+#agent.chat .agent-body { pointer-events: none; }
+@media (max-width: 700px) { #agent.chat { display: none; } }
+.agent-holo { position: relative; width: 100%; height: 100%; transform-origin: 50% 92%; filter: drop-shadow(0 0 12px var(--agent-glow)) drop-shadow(0 0 28px var(--agent-glow)); animation: flick 6s infinite; }
+.agent-holo::after { content: ''; position: absolute; left: 50%; top: 8%; width: 70%; height: 80%; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, var(--agent-glow), transparent); opacity: .35; z-index: -1; filter: blur(14px); }
+.agent-svg { width: 100%; height: 100%; overflow: visible; }
+.fl-outer { fill: var(--agent-a); transition: fill .7s; } .fl-mid { fill: var(--agent-b); transition: fill .7s; } .fl-core { fill: var(--agent-c); transition: fill .7s; }
+.drop { fill: var(--agent-a); transition: fill .7s; animation: bob 3.2s ease-in-out infinite; } .d2 { animation-delay: -1s; } .d3 { animation-delay: -2s; }
+.flame { transform-origin: 100px 212px; animation: sway 2.6s ease-in-out infinite; }
+.scan { animation: scan 2.4s linear infinite; opacity: .8; }
+@keyframes scan { to { transform: translateY(6px); } }
+@keyframes sway { 0%, 100% { transform: scale(1, 1) skewX(0deg); } 35% { transform: scale(.965, 1.05) skewX(-2.5deg); } 70% { transform: scale(1.03, .965) skewX(2deg); } }
+@keyframes bob { 0%, 100% { translate: 0 0; opacity: .95; } 50% { translate: 0 -7px; opacity: .6; } }
+@keyframes flick { 0%, 100% { opacity: 1; } 47% { opacity: 1; } 48% { opacity: .78; } 50% { opacity: 1; } 91% { opacity: 1; } 92% { opacity: .85; } }
+
+/* face — Sleep: dot eyes + calm smile · Work: happy ^ ^ eyes + open smile + blush */
+.face { transition: transform .1s linear; }
+.eye-dot, .eye-arc, .mouth path, .cheek { transition: opacity .5s; }
+.eye-dot { fill: #1b1b2a; transform-box: fill-box; transform-origin: center; transition: transform .1s; }
+.eye-arc { fill: none; stroke: #2a1d00; stroke-width: 3.4; stroke-linecap: round; }
+.m-calm { fill: none; stroke: #1b1b2a; stroke-width: 3; stroke-linecap: round; }
+.m-happy { fill: #3a1d00; stroke: #3a1d00; stroke-width: 2; stroke-linejoin: round; }
+.cheek { fill: #ff8f6b; opacity: 0; }
+:root[data-theme="dark"] .eye-arc, :root[data-theme="dark"] .m-happy { opacity: 0; }
+:root[data-theme="light"] .eye-dot, :root[data-theme="light"] .m-calm { opacity: 0; }
+:root[data-theme="light"] .cheek { opacity: .55; }
+.mouth { transform-box: fill-box; transform-origin: 50% 30%; }
+.talking .mouth { animation: talk .24s ease-in-out infinite alternate; }
+@keyframes talk { to { transform: scaleY(1.5) scaleX(.92); } }
+.blink .eye-dot { transform: scaleY(.1); } .blink .eye-arc { opacity: 0 !important; }
+.headup .agent-holo { rotate: -9deg; translate: 0 -8px; transition: rotate .5s cubic-bezier(.3, 1.6, .5, 1), translate .5s cubic-bezier(.3, 1.6, .5, 1); }
+.agent-holo { transition: rotate .5s, translate .5s; }
+.mood-wow .eye-dot { transform: scale(1.4); } .mood-wow .mouth { transform: scale(1.25); }
+.mood-think .eyes { translate: 3px -3px; }
+.agent-body:hover .flame { animation-duration: 1.2s; }
+
+/* hologram base */
+.agent-base { position: absolute; left: 50%; bottom: -14px; width: 84px; height: 22px; translate: -50% 0; pointer-events: none; }
+.agent-base i { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--agent-a); box-shadow: 0 0 14px var(--agent-glow), inset 0 0 12px var(--agent-glow); opacity: .75; animation: ring 2.4s ease-out infinite; }
+.agent-base i + i { animation-delay: -1.2s; }
+@keyframes ring { from { scale: .45; opacity: .9; } to { scale: 1.25; opacity: 0; } }
+.agent-base::before { content: ''; position: absolute; inset: 4px 14px; border-radius: 50%; background: var(--agent-a); filter: blur(7px); opacity: .6; }
+
+/* speech bubble */
+.agent-bubble {
+  position: absolute; bottom: calc(100% + 6px); left: 0; width: max-content; max-width: min(270px, calc(100vw - 20px)); padding: 12px 16px; border-radius: 18px 18px 18px 5px; pointer-events: none;
+  font-size: 13.5px; line-height: 1.45; font-weight: 500; color: var(--text); background: color-mix(in srgb, var(--bg) 80%, transparent);
+  border: 1px solid var(--glass-brd); -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
+  box-shadow: 0 16px 40px -14px rgba(0, 0, 0, .55), 0 0 22px -6px var(--agent-glow), inset 0 1px 0 var(--glass-hi);
+  opacity: 0; translate: 0 8px; scale: .92; transform-origin: 30% 100%; transition: opacity .3s, translate .3s, scale .35s cubic-bezier(.2, .9, .3, 1.3);
+}
+.agent-bubble.show { opacity: 1; translate: 0 0; scale: 1; }
+#agent.below .agent-bubble { bottom: auto; top: calc(100% + 18px); border-radius: 5px 18px 18px 18px; transform-origin: 30% 0; }
+
+/* FAB */
+.agent-fab { position: fixed; right: 20px; bottom: 20px; z-index: 91; display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px 11px 14px; border-radius: 99px; cursor: pointer; font-weight: 600; font-size: 14px; transition: scale .25s, opacity .3s, translate .3s; }
+.agent-fab:hover { scale: 1.06; }
+.agent-fab.hide { opacity: 0; translate: 0 16px; pointer-events: none; }
+.fab-dot { width: 14px; height: 18px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; background: radial-gradient(circle at 50% 70%, #fff 20%, var(--agent-a) 70%); box-shadow: 0 0 12px var(--agent-glow); animation: sway 2.4s ease-in-out infinite; }
+.agent-fab kbd { font: 600 11px 'Inter'; padding: 2px 7px; border-radius: 6px; background: var(--chip); border: 1px solid var(--glass-brd); color: var(--muted); }
+@media (hover: none) { .agent-fab kbd { display: none; } }
+@media (max-width: 1100px) { .agent-fab { bottom: 72px; right: 12px; } }
+
+/* panel */
+.agent-panel { position: fixed; right: 20px; bottom: 20px; z-index: 95; width: min(390px, calc(100vw - 24px)); height: min(560px, calc(100svh - 110px)); border-radius: 28px; display: flex; flex-direction: column; overflow: hidden; opacity: 0; visibility: hidden; translate: 0 24px; scale: .95; transform-origin: 100% 100%; transition: opacity .3s, translate .4s cubic-bezier(.2, .9, .3, 1.2), scale .4s cubic-bezier(.2, .9, .3, 1.2), visibility .3s; background: color-mix(in srgb, var(--bg) 78%, transparent); }
+.agent-panel.open { opacity: 1; visibility: visible; translate: 0 0; scale: 1; }
+@media (max-width: 1100px) { .agent-panel { bottom: 72px; height: min(520px, calc(100svh - 150px)); right: 12px; } }
+.ap-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--glass-brd); }
+.ap-head div { flex: 1; display: grid; line-height: 1.2; } .ap-head small { color: var(--muted); font-size: 12px; }
+.ap-av { width: 34px; height: 42px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; background: radial-gradient(circle at 50% 66%, #fff 22%, var(--agent-a) 72%); box-shadow: 0 0 18px var(--agent-glow); animation: sway 2.4s ease-in-out infinite; }
+.ap-x { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--glass-brd); background: var(--chip); font-size: 20px; line-height: 1; cursor: pointer; }
+.ap-msgs { flex: 1; overflow-y: auto; padding: 16px 16px 6px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; }
+.msg { max-width: 86%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; animation: msgIn .35s cubic-bezier(.2, .9, .3, 1.2) both; }
+@keyframes msgIn { from { opacity: 0; translate: 0 10px; scale: .95; } }
+.msg.bot { align-self: flex-start; background: var(--chip); border: 1px solid var(--glass-brd); border-bottom-left-radius: 5px; }
+.msg.me { align-self: flex-end; color: var(--on-accent); background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-bottom-right-radius: 5px; font-weight: 500; }
+.msg code { font-size: 12px; padding: 1px 6px; border-radius: 6px; background: var(--chip); }
+.msg small { color: var(--muted); }
+.ap-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 6px 12px; border-radius: 99px; font-weight: 600; color: var(--on-accent); background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.dots { display: inline-flex; gap: 4px; padding: 4px 0; } .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; } .dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 80%, 100% { translate: 0 0; opacity: .4; } 40% { translate: 0 -5px; opacity: 1; } }
+.ap-chips { display: flex; gap: 8px; padding: 8px 16px 10px; overflow-x: auto; scrollbar-width: none; min-height: 50px; }
+.ap-chips::-webkit-scrollbar { display: none; }
+.ap-chips button { flex: none; padding: 7px 13px; border-radius: 99px; border: 1px solid var(--glass-brd); background: var(--chip); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .25s; }
+.ap-chips button:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, transparent); }
+.ap-form { display: flex; gap: 8px; padding: 12px 14px 14px; border-top: 1px solid var(--glass-brd); }
+.ap-form input { flex: 1; min-width: 0; font: inherit; font-size: 14px; color: var(--text); padding: 11px 16px; border-radius: 99px; border: 1px solid var(--glass-brd); background: var(--chip); }
+.ap-form input:focus { outline: none; border-color: var(--accent); }
+.ap-form button { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: var(--on-accent); background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; animation-iteration-count: 1 !important; } }
